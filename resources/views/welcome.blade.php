@@ -20,7 +20,7 @@
     </main>
     <div class="container">
         <h1>Forms Johnson & Johnsons</h1>
-        <form id="cadastroForm" action="{{ url('/formularios') }}" method="POST">
+        <form id="cadastroForm" action="/formularios" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="formTitle" class="form-label">Título do formulário</label>
@@ -28,9 +28,9 @@
             </div>
             <button type="button" id="btnOpcao" class="btn btn-primary">Escolha a opção</button>
             <div id="contCheck" class="mt-3 d-none">
-                <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('texto', '')">Texto Pequeno</button>
-                <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('textoarea', '')">Texto Grande</button>
-                <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('multiplo', '')">Checkbox</button>
+                <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('texto', 'Título do campo')">Texto Pequeno</button>
+                <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('textoarea', 'Título do campo')">Texto Grande</button>
+                <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('multiplo', 'Título do campo')">Checkbox</button>
             </div>
             <div id="formContent" class="mt-3"></div>
             <input type="submit" value="Enviar" class="btn btn-primary">
@@ -43,6 +43,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
     <script src="./js/scripts.js"></script>
 </body>
 </html>

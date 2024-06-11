@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,15 +10,12 @@ class CampoFormulario extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'id_formulario',
-        'texto',
-        'textoarea',
-        'multiplo',
-    ];
+    protected $table = 'campos_formulario';
+
+    protected $fillable = ['formulario_id', 'titulo'];
 
     public function formulario()
     {
-        return $this->belongsTo(Formulario::class, 'formulario_id');
+        return $this->belongsTo(Formulario::class);
     }
 }

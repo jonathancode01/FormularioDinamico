@@ -9,14 +9,12 @@ class Formulario extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'titulo'
+    protected $table = 'formularios';
 
-    ];
+    protected $fillable = ['titulo'];
 
     public function campos()
     {
-        return $this->hasMany(CampoFormulario::class, 'formulario_id');
+        return $this->hasMany(CampoFormulario::class);
     }
-
 }

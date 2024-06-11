@@ -1,0 +1,57 @@
+body {
+    color: #333;
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.cabeca {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    background-color: #444;
+    padding: 20px 0;
+    color: #FFF;
+}
+
+.corpo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Alterei para min-height para ocupar a altura total da tela */
+}
+
+.rodape {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    background-color: #444;
+    color: #FFF;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.container {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    margin-top: 20px; /* Adicionei um espaço entre os formulários */
+}
+
+label, select, input, button {
+    margin-bottom: 10px;
+    display: block; /* Garante que cada elemento do formulário fique em uma linha */
+}
+
+button {
+    padding: 10px 20px;
+}

@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('campos_formulario', function (Blueprint $table) {
+        Schema::create('respform', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('formulario_id');
-            $table->string('titulo')->unique();
+            $table->unsignedBigInteger('ID_RESP');
+            $table->foreign('ID_RESP')->references('id')->on('campos_formulario')->onDelete('cascade');
+            $table->string('texto');
+            $table->string('textoarea');
+            $table->string('multiplo');
             $table->timestamps();
-
-            $table->foreign('formulario_id')->references('id')->on('formularios')->onDelete('cascade');
         });
     }
 
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('campos_formulario');
+        Schema::dropIfExists('respform');
     }
 };
