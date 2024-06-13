@@ -16,7 +16,7 @@
     </header>
 
     <main class="corpo">
-        <div class="form-content"></div>
+
 
     </main>
 

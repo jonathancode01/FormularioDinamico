@@ -11,7 +11,7 @@ class Formulario extends Model
 
     protected $table = 'formularios';
 
-    protected $fillable = ['titulo'];
+    protected $fillable = [ 'form_id' ,'titulo'];
 
     public function campos()
     {

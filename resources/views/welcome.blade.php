@@ -26,6 +26,9 @@
                 <label for="formTitle" class="form-label">Título do formulário</label>
                 <input type="text" name="titulo" id="formTitle" class="form-control" required>
             </div>
+
+
+            
             <button type="button" id="btnOpcao" class="btn btn-primary">Escolha a opção</button>
             <div id="contCheck" class="mt-3 d-none">
                 <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('texto', 'Título do campo')">Texto Pequeno</button>

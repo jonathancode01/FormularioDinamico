@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('formularios', function (Blueprint $table) {
+        Schema::create('opcoes_form', function (Blueprint $table) {
             $table->id();
-            // $table->unsignedBigInteger('form_id')->unique();
-            $table->string('titulo');
+            $table->unsignedBigInteger('element_id');
+            $table->string('checkbox');
+            $table->foreign('element_id')->references('id')->on('campos_formulario')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('formularios');
+        Schema::dropIfExists('opcoes_form');
     }
 };

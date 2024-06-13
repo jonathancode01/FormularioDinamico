@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('campos_formulario', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('formulario_id');
-            $table->string('titulo')->unique();
+            $table->string('titulo');
+            $table->string('tipo');
+            // $table->foreign('formulario_id')->references('form_id')->on('formularios')->onDelete('cascade');
             $table->timestamps();
-
-            $table->foreign('formulario_id')->references('id')->on('formularios')->onDelete('cascade');
         });
     }
 

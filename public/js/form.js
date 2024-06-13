@@ -1,7 +1,8 @@
 $(document).ready(function() {
+
     // Fazendo a requisição AJAX
     $.ajax({
-        url: `/formularios/1`, // Corrija a URL para apontar para o endpoint correto
+        url: `/formularios/{$id}`, // Corrija a URL para apontar para o endpoint correto
         type: 'GET',
         dataType: 'json',
         success: function(response) {
