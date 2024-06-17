@@ -12,3 +12,5 @@ Route::get('/formularios/{id}', [FormularioController::class, 'show']);
 
 Route::get('/', [FormularioController::class, 'index']);
 Route::post('/formularios', [FormularioController::class, 'store']);
+
+

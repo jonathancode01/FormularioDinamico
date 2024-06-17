@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OpcoesForm;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Formulario;
 use App\Models\CampoFormulario;
-use App\Models\OpcaoForm;
+
+
 
 class FormularioController extends Controller {
 
@@ -19,6 +21,11 @@ class FormularioController extends Controller {
         // dd($request->all());
         $request->validate([
             'titulo' => 'required|string',
+            'campos.*.titulo' => 'required|string',
+            'campos.*.tipo' => 'required|string|in:texto,textoarea,multiplo',
+            'campos.*.opcoes' => 'nullable|array', // Validação opcional para as opções, se necessário
+            'campos.*.opcoes.*' => 'string', // Validação opcional para as opções, se necessário
+
         ]);
 
         try {
@@ -35,7 +42,6 @@ class FormularioController extends Controller {
 
             foreach ($request->input('campos', []) as $campo) {
                 Log::info('Processing campo: ', $campo);
-                $opcoes = $campo['tipo'] == 'multiplo' && isset($campo['opcoes']) ? $campo['opcoes'] : null;
 
                 // Crie o campo do formulário
                 $campoFormulario = CampoFormulario::create([
@@ -45,11 +51,11 @@ class FormularioController extends Controller {
                 ]);
 
                 // Se houver opções, salve-as na tabela 'opcoes_form'
-                if ($opcoes) {
-                    foreach ($opcoes as $opcao) {
-                        OpcaoForm::create([
-                            'opcaoForm_id' => $campoFormulario->id, // Utilize o ID do campo criado
-                            'opcao' => $opcao
+                if (in_array($campo['tipo'], ['checkbox']) && isset($campo['opcoes'])) {
+                    foreach ($campo['opcoes'] as $opcao) {
+                        OpcoesForm::create([
+                            'element_id' => $campoFormulario->id, // Utilize o ID do campo criado
+                            'checkbox' => $opcao
                         ]);
                     }
                 }
@@ -68,6 +74,7 @@ class FormularioController extends Controller {
         if (!$formulario) {
             return response()->json(['message' => 'Formulario não encontrado'], 404);
         }
-        return response()->json($formulario, 200);
+        return view('formularios', compact('formulario'));
     }
+
 }

@@ -14,19 +14,15 @@ class CampoFormulario extends Model
 
     protected $fillable = ['formulario_id', 'titulo', 'tipo'];
 
-    protected $casts = [
-
-        'opcoes' => 'array'
-    ];
 
     public function formulario()
     {
-        return $this->belongsTo(Formulario::class, 'formulario_id');
+        return $this->belongsTo(Formulario::class);
     }
 
     public function opcoes()
         {
-            return $this->hasMany(OpcaoForm::class, 'element_id');
+            return $this->hasMany(OpcoesForm::class, 'element_id');
         }
 
 }
