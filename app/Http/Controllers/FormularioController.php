@@ -2,30 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OpcoesForm;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Http\Request;
-use App\Models\Formulario;
 use App\Models\CampoFormulario;
+use App\Models\OpcoesForm;
+use App\Models\Formulario;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
-
-
-class FormularioController extends Controller {
-
-    public function index() {
+class FormularioController extends Controller
+{
+    public function index()
+    {
         $formularios = Formulario::all();
         return view('welcome', compact('formularios'));
     }
 
-    public function store(Request $request) {
-        // dd($request->all());
+    public function store(Request $request)
+    {
         $request->validate([
             'titulo' => 'required|string',
             'campos.*.titulo' => 'required|string',
             'campos.*.tipo' => 'required|string|in:texto,textoarea,multiplo',
             'campos.*.opcoes' => 'nullable|array', // Validação opcional para as opções, se necessário
             'campos.*.opcoes.*' => 'string', // Validação opcional para as opções, se necessário
-
         ]);
 
         try {
@@ -37,7 +35,7 @@ class FormularioController extends Controller {
             ]);
 
             if (!$formulario) {
-                throw new \Exception('Formulario não encontrado');
+                throw new \Exception('Formulário não encontrado');
             }
 
             foreach ($request->input('campos', []) as $campo) {
@@ -50,31 +48,31 @@ class FormularioController extends Controller {
                     'tipo' => $campo['tipo'] ?? '',
                 ]);
 
-                // Se houver opções, salve-as na tabela 'opcoes_form'
-                if (in_array($campo['tipo'], ['checkbox']) && isset($campo['opcoes'])) {
+                // Se o campo for do tipo "multiplo" (checkbox), salve as opções na tabela OpcoesForm
+                if ($campo['tipo'] === 'multiplo' && isset($campo['opcoes'])) {
                     foreach ($campo['opcoes'] as $opcao) {
                         OpcoesForm::create([
-                            'element_id' => $campoFormulario->id, // Utilize o ID do campo criado
+                            'element_id' => $campoFormulario->id,
                             'checkbox' => $opcao
                         ]);
                     }
                 }
             }
 
-            Log::info('Formulario criado com sucesso!');
+            Log::info('Formulário criado com sucesso!');
             return response()->json(['message' => $formulario->id, 'formulario' => $formulario], 200);
         } catch (\Exception $e) {
-            Log::error('Erro ao salvar o formulario: ', ['error' => $e->getMessage()]);
+            Log::error('Erro ao salvar o formulário: ', ['error' => $e->getMessage()]);
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $formulario = Formulario::with('campos.opcoes')->find($id);
         if (!$formulario) {
-            return response()->json(['message' => 'Formulario não encontrado'], 404);
+            return response()->json(['message' => 'Formulário não encontrado'], 404);
         }
         return view('formularios', compact('formulario'));
     }
-
 }

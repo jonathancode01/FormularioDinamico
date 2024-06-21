@@ -6,6 +6,7 @@ $(document).ready(function() {
 
 let contCampo = 0; // Contador de campos
 
+
 function addCampo(type) {
     const formContent = $('#formContent');
     contCampo++;
@@ -19,20 +20,20 @@ function addCampo(type) {
 
     switch (type) {
         case 'texto':
-            contHtml = `<div class="mb-3" data-titulo="${addTitulo}">
+            contHtml = `<div class="mb-3" data-titulo="${addTitulo}" data-order="${contCampo}">
                             <label for="${campoNome}" class="form-label">${addTitulo}</label>
                             <input type="text" name="${campoNome}" id="${campoNome}" class="form-control">
                         </div>`;
             break;
         case 'textoarea':
-            contHtml = `<div class="mb-3" data-titulo="${addTitulo}">
+            contHtml = `<div class="mb-3" data-titulo="${addTitulo}" data-order="${contCampo}">
                             <label for="${campoNome}" class="form-label">${addTitulo}</label>
                             <textarea name="${campoNome}" id="${campoNome}" class="form-control" rows="3"></textarea>
                         </div>`;
             break;
         case 'multiplo':
             const checkboxes = prompt('Digite os itens do checkbox separados por vírgula').split(',').map(item => item.trim());
-            contHtml = `<div class="mb-3" data-titulo="${addTitulo}">
+            contHtml = `<div class="mb-3" data-titulo="${addTitulo}" data-order="${contCampo}">
                             <label class="form-label">${addTitulo}</label>
                             <div class="checkbox-container">
                             ${checkboxes.map((item, index) => `
@@ -50,37 +51,47 @@ function addCampo(type) {
     $('#btnOpcao').addClass('d-none');
 }
 
+
 $('#cadastroForm').submit(function(e){
     e.preventDefault();
 
     var url = $(this).attr('action');
     let formData = new FormData(this);
 
-    $('#formContent .mb-3').each(function(index, element) {
-        let titulo = $(element).data('titulo');
+    // Coleta os campos e ordena por data-order
+    let fields = $('#formContent .mb-3').toArray();
+    fields.sort((a, b) => {
+        return $(a).data('order') - $(b).data('order');
+    });
+
+    fields.forEach(function(element, index) {
+        let titulo = $(element).data('titulo'); // Obtém o valor do atributo 'data-titulo'
         if (titulo) {
-            let type = $(element).find('input[type="text"]').length ? 'texto' : ($(element).find('textarea').length ? 'textoarea' : 'multiplo');
-            formData.append(`campos[${index}][titulo]`, titulo);
-            formData.append(`campos[${index}][tipo]`, type);
+            let type = $(element).find('input[type="text"]').length ? 'texto' :
+                       ($(element).find('textarea').length ? 'textoarea' : 'multiplo');
+            formData.append(`campos[${index}][titulo]`, titulo); // Adiciona o título ao FormData
+            formData.append(`campos[${index}][tipo]`, type); // Adiciona o tipo ao FormData
 
             if (type === 'multiplo') {
                 const hiddenInput = $(element).find('input[type="hidden"]').val();
                 if (hiddenInput) {
                     try {
-                        const opcoes = JSON.parse(hiddenInput);
+                        const opcoes = JSON.parse(hiddenInput); // Tenta fazer o parse do JSON
                         opcoes.forEach(opcao => {
-                            formData.append(`campos[${index}][opcoes][]`, opcao);
+                            formData.append(`campos[${index}][opcoes][]`, opcao); // Adiciona as opções ao FormData
                         });
                     } catch (e) {
-                        console.error('Error parsing JSON:', e);
+                        console.error('Error parsing JSON:', e); // Loga o erro caso o JSON seja inválido
                     }
                 } else {
-                    console.warn('Hidden input value is empty or undefined for multiplo type');
+                    console.warn(`Hidden input value is empty or undefined for multiplo type at index ${index}`);
                 }
             }
         }
     });
 
+
+    console.log(formData);
     $.ajax({
         type: 'POST',
         url: url,

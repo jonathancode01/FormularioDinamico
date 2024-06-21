@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('respform', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('ID_RESP');
-            $table->foreign('ID_RESP')->references('id')->on('campos_formulario')->onDelete('cascade');
-            $table->string('texto');
-            $table->string('textoarea');
-            $table->string('multiplo');
+            $table->string('resp');
+            // Definindo a coluna 'resp' como chave estrangeira referenciando a coluna 'tipo' na tabela 'campos_formulario'
+            $table->foreign('resp')->references('tipo')->on('campos_formulario')->onDelete('cascade');
+            $table->string('resp_tipo');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

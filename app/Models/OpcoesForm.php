@@ -16,7 +16,8 @@ class OpcoesForm extends Model
         'checkbox',
     ];
 
-    public function campo(){
-        return $this->belongsTo(CampoFormulario::class, 'element_id', 'id');
+    public function campoFormulario()
+    {
+        return $this->belongsTo(CampoFormulario::class, 'element_id');
     }
 }

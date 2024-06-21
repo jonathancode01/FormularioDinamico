@@ -16,30 +16,25 @@
     </header>
 
     <main class="corpo">
-        <h1>Form John</h1>
+        <div class="container">
+            <h1>Forms Johnson & Johnsons</h1>
+            <form id="cadastroForm" action="/formularios" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="formTitle" class="form-label">Título do formulário</label>
+                    <input type="text" name="titulo" id="formTitle" class="form-control" required>
+                </div>
+                    <button type="button" id="btnOpcao" class="btn btn-primary">Escolha a opção</button>
+                        <div id="contCheck" class="mt-3 d-none">
+                            <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('texto', 'Título do campo')">Texto Pequeno</button>
+                            <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('textoarea', 'Título do campo')">Texto Grande</button>
+                            <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('multiplo', 'Título do campo')">Checkbox</button>
+                        </div>
+                <div id="formContent" class="mt-3"></div>
+                <input type="submit" value="Enviar" class="btn btn-primary">
+            </form>
+        </div>
     </main>
-    <div class="container">
-        <h1>Forms Johnson & Johnsons</h1>
-        <form id="cadastroForm" action="/formularios" method="POST">
-            @csrf
-            <div class="mb-3">
-                <label for="formTitle" class="form-label">Título do formulário</label>
-                <input type="text" name="titulo" id="formTitle" class="form-control" required>
-            </div>
-
-
-            
-            <button type="button" id="btnOpcao" class="btn btn-primary">Escolha a opção</button>
-            <div id="contCheck" class="mt-3 d-none">
-                <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('texto', 'Título do campo')">Texto Pequeno</button>
-                <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('textoarea', 'Título do campo')">Texto Grande</button>
-                <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('multiplo', 'Título do campo')">Checkbox</button>
-            </div>
-            <div id="formContent" class="mt-3"></div>
-            <input type="submit" value="Enviar" class="btn btn-primary">
-        </form>
-    </div>
-
     <footer class="rodape mt-5">
         Copyright © Jonathan Dev
     </footer>
