@@ -10,26 +10,32 @@ use App\Models\RespFormulario;
 class CamposController extends Controller
 {
 
-    public function index()
-    {
-        $campoFormularios = CampoFormulario::all();
-        $formularios = Formulario::all();
 
-        return view('formularios', compact('campoFormularios', 'formularios'));
+    public function index(){
+
+        $formularios = Formulario::all();
+        $camposFormulario = CampoFormulario::all();
+
+        return view('/formularios', compact('camposFormulario', 'formularios'));
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'resp' => 'required|string',
-            'tipo' => 'required|string|in:texto,textoarea,multiplo',
+        $formularioId = $request->input('formulario_id'); // Assumindo que o ID do formulário é enviado no request
 
-        ]);
+        foreach ($request->input('campos') as $campo) {
+            $request->validate([
+                'campos.*.resp' => 'required|string',
+                'campos.*.tipo' => 'required|string|in:texto,textoarea',
+            ]);
 
-        RespFormulario::create([
-            'resp' => $validatedData['resp'],
-            'tipo' => $validatedData['tipo']
-        ]);
+            RespFormulario::create([
+                'resp' => $campo['resp'],
+                'resp_tipo' => $campo['tipo'],
+                'formulario_id' => $formularioId, // Assumindo que você quer relacionar a resposta com um formulário específico
+            ]);
+        }
+
 
         return redirect('formularios');
     }
@@ -39,16 +45,16 @@ class CamposController extends Controller
         $ordemTipos = [
             'texto' => 1,
             'textoarea' => 2,
-            'multiplo' => 3,
+
         ];
 
-        $formulario = Formulario::find($id);
+        $formularios = Formulario::find($id);
         $campoFormulario = CampoFormulario::where('formulario_id', $id)->orderBy('id', 'asc')->get();
         $campoFormulario = $campoFormulario->sortBy(function($campo) use ($ordemTipos) {
             return $ordemTipos[$campo->tipo];
         });
 
-        return view('formularios', compact('campoFormulario', 'formulario'));
+        return view('formularios', compact('campoFormulario', 'formularios'));
     }
 
     public function edit($id)

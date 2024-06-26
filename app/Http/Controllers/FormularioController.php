@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CampoFormulario;
-use App\Models\OpcoesForm;
+use App\Models\SelectModel;
 use App\Models\Formulario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -21,10 +21,11 @@ class FormularioController extends Controller
         $request->validate([
             'titulo' => 'required|string',
             'campos.*.titulo' => 'required|string',
-            'campos.*.tipo' => 'required|string|in:texto,textoarea,multiplo',
-            'campos.*.opcoes' => 'nullable|array', // Validação opcional para as opções, se necessário
-            'campos.*.opcoes.*' => 'string', // Validação opcional para as opções, se necessário
+            'campos.*.tipo' => 'required|string|in:texto,textoarea,select',
+            'campos.*.options' => 'array', // Validação para array de opções
+            'campos.*.options.*' => 'string', // Validação para cada opção do select
         ]);
+
 
         try {
             Log::info('Request received: ', $request->all());
@@ -48,12 +49,11 @@ class FormularioController extends Controller
                     'tipo' => $campo['tipo'] ?? '',
                 ]);
 
-                // Se o campo for do tipo "multiplo" (checkbox), salve as opções na tabela OpcoesForm
-                if ($campo['tipo'] === 'multiplo' && isset($campo['opcoes'])) {
-                    foreach ($campo['opcoes'] as $opcao) {
-                        OpcoesForm::create([
-                            'element_id' => $campoFormulario->id,
-                            'checkbox' => $opcao
+                if($campo['tipo'] === 'select' && isset($campo['options'])){
+                    foreach ($campo['options'] as $option) {
+                        SelectModel::create([
+                            'campo_formulario_id' => $campoFormulario->id,
+                            'option_text' => $option,
                         ]);
                     }
                 }

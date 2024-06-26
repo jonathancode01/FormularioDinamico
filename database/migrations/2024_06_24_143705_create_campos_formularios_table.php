@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('formulario_id');
             $table->string('titulo');
-            $table->string('tipo')->unique();
+            $table->string('tipo');
             $table->foreign('formulario_id')->references('id')->on('formularios')->onDelete('cascade');
             $table->timestamps();
         });

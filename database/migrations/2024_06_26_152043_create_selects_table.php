@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,10 +12,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('formularios', function (Blueprint $table) {
+        Schema::create('selects', function (Blueprint $table) {
             $table->id();
-            // $table->unsignedBigInteger('idform')->unique();
-            $table->string('titulo');
+            $table->unsignedBigInteger('campo_formulario_id');
+            $table->string('option_text');
+            $table->foreign('campo_formulario_id')->references('id')->on('campos_formulario')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('formularios');
+        Schema::dropIfExists('selects');
     }
 };

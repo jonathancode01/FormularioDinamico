@@ -16,8 +16,6 @@ return new class extends Migration
         Schema::create('respform', function (Blueprint $table) {
             $table->id();
             $table->string('resp');
-            // Definindo a coluna 'resp' como chave estrangeira referenciando a coluna 'tipo' na tabela 'campos_formulario'
-            $table->foreign('resp')->references('tipo')->on('campos_formulario')->onDelete('cascade');
             $table->string('resp_tipo');
             $table->timestamps();
         });
