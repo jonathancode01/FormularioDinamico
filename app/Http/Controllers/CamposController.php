@@ -10,65 +10,38 @@ use App\Models\RespFormulario;
 class CamposController extends Controller
 {
 
-
-    public function index(){
-
-        $formularios = Formulario::all();
-        $camposFormulario = CampoFormulario::all();
-
-        return view('/formularios', compact('camposFormulario', 'formularios'));
-    }
-
-    public function store(Request $request)
+    public function index()
     {
-        $formularioId = $request->input('formulario_id'); // Assumindo que o ID do formulário é enviado no request
+        $camposFormularios = CampoFormulario::all();
+        return view('formularios', compact('camposFormularios'));
+    }
+    public function store(Request $request, $id)
+    {
+        $formulario = Formulario::find($id);
+
+        if (!$formulario) {
+            return response()->json(['message' => 'Formulário não encontrado'], 404);
+        }
 
         foreach ($request->input('campos') as $campo) {
             $request->validate([
                 'campos.*.resp' => 'required|string',
-                'campos.*.tipo' => 'required|string|in:texto,textoarea',
+                'campos.*.tipo' => 'required|string|in:texto,textoarea,select',
             ]);
 
             RespFormulario::create([
                 'resp' => $campo['resp'],
                 'resp_tipo' => $campo['tipo'],
-                'formulario_id' => $formularioId, // Assumindo que você quer relacionar a resposta com um formulário específico
+                'formulario_id' => $id,
             ]);
         }
 
-
-        return redirect('formularios');
+        return redirect()->route('formularios');
     }
 
     public function show($id)
     {
-        $ordemTipos = [
-            'texto' => 1,
-            'textoarea' => 2,
-
-        ];
-
-        $formularios = Formulario::find($id);
-        $campoFormulario = CampoFormulario::where('formulario_id', $id)->orderBy('id', 'asc')->get();
-        $campoFormulario = $campoFormulario->sortBy(function($campo) use ($ordemTipos) {
-            return $ordemTipos[$campo->tipo];
-        });
-
-        return view('formularios', compact('campoFormulario', 'formularios'));
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+        $formularios = Formulario::with('campos.selects')->findOrFail($id);
+        return view('formularios', compact('formularios'));
     }
 }

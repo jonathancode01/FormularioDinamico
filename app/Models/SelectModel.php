@@ -9,6 +9,8 @@ class SelectModel extends Model
 {
     use HasFactory;
 
+    protected $table = 'select_options';
+
     protected $fillable = [
         'campo_formulario_id',
         'option_text'

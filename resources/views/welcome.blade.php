@@ -16,23 +16,19 @@
     </header>
     <main class="corpo">
         <div class="container">
-            <h1>Forms Johnson & Johnsons</h1>
-            <form id="cadastroForm" method="POST">
-            @csrf
-            <div class="mb-3">
-                <input type="text" name="titulo" id="formTitle" class="form-control" placeholder="Título do Formulário" required>
-            </div>
-            <div class="mb-3">
-                <button type="button" id="btnOpcao" class="btn btn-primary">Escolha a opção</button>
-                <div id="contCheck" class="mt-3 d-none">
-                    <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('texto')">Resposta Curta</button>
-                    <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('textoarea')">Parágrafo</button>
-                    <button type="button" class="btn btn-secondary mb-2" onclick="addCampo('select')">Lista Suspensa</button>
+            <form id="cadastroForm" action="{{ route('formularios') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="titulo" class="form-label">Título do Formulário</label>
+                    <input type="text" name="titulo" id="titulo" class="form-control" required>
                 </div>
-            </div>
-            <div id="formContent" class="mt-3"></div>
-            <input type="submit" value="Enviar" class="btn btn-primary">
-        </form>
+                <div id="formContent"></div>
+                <button type="button" class="btn btn-primary" onclick="addCampo('texto')">Paragrafo curto</button>
+                <button type="button" class="btn btn-primary" onclick="addCampo('textoarea')">Paragrafo</button>
+                <button type="button" class="btn btn-primary" onclick="addCampo('select')">Lista Suspensa</button>
+                <button type="submit" class="btn btn-success mt-3">Salvar Formulário</button>
+            </form>
+
         </div>
     </main>
     <footer class="rodape mt-5">
@@ -41,8 +37,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
     <script src="./js/scripts.js"></script>
 </body>
 </html>

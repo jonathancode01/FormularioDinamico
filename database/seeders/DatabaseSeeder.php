@@ -1,12 +1,10 @@
 <?php
 
 namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-
-
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,23 +15,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Verificar se a tabela respform já existe
-        if (Schema::hasTable('respform')) {
-            // Inserir valor em respform
-            DB::table('respform')->insert([
-                'resp' => 'Texto de exemplo',
-                'resp_tipo' => 'textoarea'
-            ]);
-        }
+        // Inserir um formulário inicial
+        $formularioId = DB::table('formularios')->insertGetId([
+            'titulo' => 'Formulário de Exemplo',
+        ]);
 
-        // Verificar se a tabela campos_formulario já existe
-        if (Schema::hasTable('campos_formulario')) {
-            // Inserir valor em campos_formulario
-            DB::table('campos_formulario')->insert([
-                'formulario_id' => 1,
+        // Verificar se foi obtido com sucesso o ID do formulário
+        if ($formularioId) {
+            // Inserir campos para o formulário
+            $campoFormularioId = DB::table('campos_formulario')->insertGetId([
+                'formulario_id' => $formularioId,
                 'titulo' => 'Campo de Exemplo',
-                'tipo' => 'textoarea'
+                'tipo' => 'select', // Suponha que o tipo seja 'select'
             ]);
+
+            // Inserir opções para o campo de exemplo
+            if ($campoFormularioId) {
+                DB::table('select_options')->insert([
+                    'campo_formulario_id' => $campoFormularioId,
+                    'option_text' => 'Selecione',
+                ]);
+            } else {
+                $this->command->info('Não foi possível obter o ID do campo_formulario.');
+            }
+        } else {
+            $this->command->info('Não foi possível obter o ID do formulário.');
         }
     }
 }

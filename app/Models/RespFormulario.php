@@ -11,9 +11,6 @@ class RespFormulario extends Model
 
     protected $table = 'respform';
 
-    protected $fillable = [
-        'resp',
-        'resp_tipo'
-    ];
+    protected $fillable = ['resp', 'resp_tipo'];
 
 }

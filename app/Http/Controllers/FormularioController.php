@@ -13,66 +13,66 @@ class FormularioController extends Controller
     public function index()
     {
         $formularios = Formulario::all();
+        $campoFormularios = CampoFormulario::all();
         return view('welcome', compact('formularios'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        Log::info('Request data: ', $request->all());
+
+        // Validação dos dados recebidos do formulário
+        $validatedData = $request->validate([
             'titulo' => 'required|string',
+            'campos' => 'required|array',
             'campos.*.titulo' => 'required|string',
             'campos.*.tipo' => 'required|string|in:texto,textoarea,select',
-            'campos.*.options' => 'array', // Validação para array de opções
-            'campos.*.options.*' => 'string', // Validação para cada opção do select
+            'campos.*.options' => 'nullable|array',
+            'campos.*.options.*' => 'string',
         ]);
 
+        Log::info('Validated data: ', $validatedData);
 
-        try {
-            Log::info('Request received: ', $request->all());
+        // Criar o formulário principal
+        $formulario = Formulario::create([
+            'titulo' => $request->input('titulo'),
+        ]);
 
-            // Primeiro, crie o formulário sem o campo 'form_id'
-            $formulario = Formulario::create([
-                'titulo' => $request->input('titulo')
-            ]);
+        Log::info('Formulario created: ', $formulario->toArray());
 
-            if (!$formulario) {
-                throw new \Exception('Formulário não encontrado');
-            }
-
-            foreach ($request->input('campos', []) as $campo) {
-                Log::info('Processing campo: ', $campo);
-
-                // Crie o campo do formulário
-                $campoFormulario = CampoFormulario::create([
+        // Verificar se o formulário foi criado com sucesso
+        if ($formulario) {
+            // Criar os campos do formulário
+            foreach ($request->input('campos') as $campo) {
+                $novoCampo = CampoFormulario::create([
                     'formulario_id' => $formulario->id,
-                    'titulo' => $campo['titulo'] ?? '',
-                    'tipo' => $campo['tipo'] ?? '',
+                    'titulo' => $campo['titulo'],
+                    'tipo' => $campo['tipo'],
                 ]);
+                Log::info('Campo created: ', $novoCampo->toArray());
 
-                if($campo['tipo'] === 'select' && isset($campo['options'])){
+                // Criar as opções se o campo for do tipo select
+                if ($campo['tipo'] === 'select' && isset($campo['options'])) {
                     foreach ($campo['options'] as $option) {
-                        SelectModel::create([
-                            'campo_formulario_id' => $campoFormulario->id,
+                        $newOption = SelectModel::create([
+                            'campo_formulario_id' => $novoCampo->id,
                             'option_text' => $option,
                         ]);
+                        Log::info('Option created: ', $newOption->toArray());
                     }
                 }
             }
 
-            Log::info('Formulário criado com sucesso!');
-            return response()->json(['message' => $formulario->id, 'formulario' => $formulario], 200);
-        } catch (\Exception $e) {
-            Log::error('Erro ao salvar o formulário: ', ['error' => $e->getMessage()]);
-            return response()->json(['message' => $e->getMessage()], 500);
+            // Redirecionar para a página de detalhes do formulário
+            return response()->json(['message' => $formulario->id]);
         }
+
+        // Em caso de falha ao criar o formulário, retornar uma resposta de erro
+        return back()->withInput()->withErrors(['message' => 'Erro ao criar o formulário']);
     }
 
     public function show($id)
     {
-        $formulario = Formulario::with('campos.opcoes')->find($id);
-        if (!$formulario) {
-            return response()->json(['message' => 'Formulário não encontrado'], 404);
-        }
-        return view('formularios', compact('formulario'));
+        // Implementar a lógica para exibir um formulário específico
     }
 }

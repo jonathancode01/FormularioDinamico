@@ -12,11 +12,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('selects', function (Blueprint $table) {
+        Schema::create('select_options', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('campo_formulario_id');
+            $table->foreignId('campo_formulario_id')->constrained('campos_formulario')->onDelete('cascade');
             $table->string('option_text');
-            $table->foreign('campo_formulario_id')->references('id')->on('campos_formulario')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('selects');
+        Schema::dropIfExists('select_options');
     }
 };
