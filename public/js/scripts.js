@@ -40,10 +40,10 @@ function addCampo(type) {
             const selectId = `select_${contCampo}`;
             contHtml = `<div class="mb-3" data-titulo="${addTitulo}" data-order="${contCampo}">
                             <label for="${selectId}" class="form-label">${addTitulo}</label>
-                            <select name="${campoNome}[resp]" id="${selectId}" class="form-control" ></select>
+                            <select name="${campoNome}[resp]" id="${selectId}" class="form-control"></select>
                             <input type="hidden" name="${campoNome}[titulo]" value="${addTitulo}">
                             <input type="hidden" name="${campoNome}[tipo]" value="select">
-                            <button type="button" class="btn btn-secondary mt-2" onclick="addOption('${selectId}')">Adicionar Opção</button>
+                            <button type="button" class="btn btn-secondary mt-2" onclick="addOption('${selectId}', '${campoNome}')">Adicionar Opção</button>
                         </div>`;
             break;
     }
@@ -52,11 +52,16 @@ function addCampo(type) {
     $('#btnOpcao').addClass('d-none');
 }
 
-
-function addOption(selectId) {
+function addOption(selectId, campoNome) {
     const optionText = prompt('Digite o texto: ');
     if (optionText) {
         $(`#${selectId}`).append(`<option value="${optionText}">${optionText}</option>`);
+        // Adiciona um input hidden para enviar a opção com o formulário
+        const inputHidden = document.createElement('input');
+        inputHidden.type = 'hidden';
+        inputHidden.name = `${campoNome}[options][]`;
+        inputHidden.value = optionText;
+        document.getElementById(selectId).parentNode.appendChild(inputHidden);
     }
 }
 
