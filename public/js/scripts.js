@@ -10,25 +10,28 @@ function addCampo(type) {
     const formContent = $('#formContent');
     contCampo++;
 
-    let contHtml = '';
     const addTitulo = prompt('Adicione um título para o novo campo: ');
 
     if (!addTitulo) return;
 
     const campoNome = `campos[${contCampo}]`;
 
+    let contHtml = '';
+
     switch (type) {
         case 'texto':
             contHtml = `<div class="mb-3" data-titulo="${addTitulo}" data-order="${contCampo}">
                             <label for="${campoNome}_titulo" class="form-label">${addTitulo}</label>
-                            <input type="text" name="${campoNome}[titulo]" id="${campoNome}_titulo" class="form-control" required>
+                            <input type="text" name="${campoNome}[resp]" id="${campoNome}_resp" class="form-control" nullable>
+                            <input type="hidden" name="${campoNome}[titulo]" value="${addTitulo}">
                             <input type="hidden" name="${campoNome}[tipo]" value="texto">
                         </div>`;
             break;
         case 'textoarea':
             contHtml = `<div class="mb-3" data-titulo="${addTitulo}" data-order="${contCampo}">
                             <label for="${campoNome}_titulo" class="form-label">${addTitulo}</label>
-                            <textarea name="${campoNome}[titulo]" id="${campoNome}_titulo" class="form-control" rows="3" required></textarea>
+                            <textarea name="${campoNome}[resp]" id="${campoNome}_resp" class="form-control" rows="3" nullable></textarea>
+                            <input type="hidden" name="${campoNome}[titulo]" value="${addTitulo}">
                             <input type="hidden" name="${campoNome}[tipo]" value="textoarea">
                         </div>`;
             break;
@@ -37,7 +40,7 @@ function addCampo(type) {
             const selectId = `select_${contCampo}`;
             contHtml = `<div class="mb-3" data-titulo="${addTitulo}" data-order="${contCampo}">
                             <label for="${selectId}" class="form-label">${addTitulo}</label>
-                            <select name="${campoNome}[options][]" id="${selectId}" class="form-control" ></select>
+                            <select name="${campoNome}[resp]" id="${selectId}" class="form-control" ></select>
                             <input type="hidden" name="${campoNome}[titulo]" value="${addTitulo}">
                             <input type="hidden" name="${campoNome}[tipo]" value="select">
                             <button type="button" class="btn btn-secondary mt-2" onclick="addOption('${selectId}')">Adicionar Opção</button>
@@ -48,6 +51,7 @@ function addCampo(type) {
     formContent.append(contHtml);
     $('#btnOpcao').addClass('d-none');
 }
+
 
 function addOption(selectId) {
     const optionText = prompt('Digite o texto: ');

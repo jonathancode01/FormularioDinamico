@@ -13,7 +13,31 @@
 
 <header class="cabeca">Jonathan Dev</header>
 <main class="corpo">
-
+    <form id="forme" method="POST" action="/formularios/id">
+        @csrf
+        <h3>{{$formulario->titulo}}</h3>
+        @foreach ($campos as $index => $campo)
+            <p>{{$campo->titulo}}</p>
+            @if ($campo->tipo === 'texto')
+                <input type="text" name="campos[{{$index}}][resp]" id="{{$campo->nome}}">
+                <input type="hidden" name="campos[{{$index}}][tipo]" value="texto">
+            @elseif ($campo->tipo === 'textoarea')
+                <textarea name="campos[{{$index}}][resp]" id="{{$campo->nome}}"></textarea>
+                <input type="hidden" name="campos[{{$index}}][tipo]" value="textoarea">
+            @elseif ($campo->tipo === 'select')
+                <select name="campos[{{$index}}][resp]" id="{{$campo->nome}}">
+                    <option value="">Selecione</option>
+                    @if (!empty($campo->opcoes))
+                        @foreach ($campo->opcoes as $opcao)
+                            <option value="{{$opcao}}">{{$opcao}}</option>
+                        @endforeach
+                    @endif
+                </select>
+                <input type="hidden" name="campos[{{$index}}][tipo]" value="select">
+            @endif
+        @endforeach
+        <button id="btnOK" type="submit">Enviar</button>
+    </form>
 </main>
 
 <footer class="rodape">Copy</footer>

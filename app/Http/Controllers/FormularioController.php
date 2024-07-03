@@ -73,6 +73,8 @@ class FormularioController extends Controller
 
     public function show($id)
     {
-        // Implementar a lógica para exibir um formulário específico
+        $formulario = Formulario::find($id);
+        $campos = CampoFormulario::where('formulario_id', $id)->get();
+        return view('formularios', compact('formulario', 'campos'));
     }
 }
