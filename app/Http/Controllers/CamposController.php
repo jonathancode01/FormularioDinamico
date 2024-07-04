@@ -17,11 +17,14 @@ class CamposController extends Controller
     }
     public function store(Request $request, $id)
     {
-        $formulario = Formulario::find($id);
 
-        if (!$formulario) {
-            return response()->json(['message' => 'Formulário não encontrado'], 404);
-        }
+        $formularioId = $request->input('formulario_id'); // Assumindo que o ID do formulário é enviado no request
+
+        // Validação dos dados recebidos do formulário
+        $request->validate([
+            'campos.*.resp' => 'required|string',
+            'campos.*.tipo' => 'required|string|in:texto,textoarea,select',
+        ]);
 
         foreach ($request->input('campos') as $campo) {
             $request->validate([
@@ -32,11 +35,11 @@ class CamposController extends Controller
             RespFormulario::create([
                 'resp' => $campo['resp'],
                 'resp_tipo' => $campo['tipo'],
-                'formulario_id' => $id,
+                'formulario_id' => $formularioId, // Assumindo que você quer relacionar a resposta com um formulário específico
             ]);
         }
 
-        return redirect()->route('formularios');
+        return redirect('welcome')->with('success', 'Respostas enviadas com sucesso!');
     }
 
     public function show($id)
