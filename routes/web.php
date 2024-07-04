@@ -11,4 +11,6 @@ Route::post('/formularios', [FormularioController::class, 'store'])->name('formu
 Route::get('/formularios/{id}', [FormularioController::class, 'show']);
 
 
-Route::post('/formularios/store', [CamposController::class, 'store'])->name('formularios');
+
+Route::post('/formularios/{id}/campos', [CamposController::class, 'store'])->name('campos.store');
+

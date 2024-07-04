@@ -13,8 +13,16 @@
 
 <header class="cabeca">Jonathan Dev</header>
 <main class="corpo">
-    <form id="forme" method="POST" action="/formularios/id">
+
+    @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+    @endif
+
+    <form id="cadastroForm" action="{{ route('campos.store', $formulario->id) }}" method="POST">
         @csrf
+        <input type="hidden" name="formulario_id" value="{{ $formulario->id }}">
         <h3>{{$formulario->titulo}}</h3>
         @foreach ($campos as $index => $campo)
             <p>{{$campo->titulo}}</p>
@@ -38,6 +46,7 @@
         @endforeach
         <button id="btnOK" type="submit">Enviar</button>
     </form>
+
 </main>
 
 <footer class="rodape">Copy</footer>

@@ -18,7 +18,7 @@ class CamposController extends Controller
     public function store(Request $request, $id)
     {
 
-        $formularioId = $request->input('formulario_id'); // Assumindo que o ID do formulário é enviado no request
+        $formularioId = $id; // Assumindo que o ID do formulário é enviado no request
 
         // Validação dos dados recebidos do formulário
         $request->validate([
@@ -39,12 +39,12 @@ class CamposController extends Controller
             ]);
         }
 
-        return redirect('welcome')->with('success', 'Respostas enviadas com sucesso!');
+        return redirect('/')->with('success', 'Respostas enviadas com sucesso!');
     }
 
     public function show($id)
     {
-        $formularios = Formulario::with('campos.selects')->findOrFail($id);
+        $formularios = Formulario::findOrFail($id);
         return view('formularios', compact('formularios'));
     }
 }
