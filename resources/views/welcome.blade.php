@@ -14,6 +14,7 @@
     <header class="cabeca">
         <h1>Jonathan Dev</h1>
     </header>
+
     <main class="corpo">
         <div class="container">
             <form id="cadastroForm" action="{{ route('formularios') }}" method="POST">

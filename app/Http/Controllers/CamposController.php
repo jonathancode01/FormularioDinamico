@@ -45,6 +45,7 @@ class CamposController extends Controller
     public function show($id)
     {
         $formularios = Formulario::findOrFail($id);
+
         return view('formularios', compact('formularios'));
     }
 }

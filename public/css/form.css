@@ -39,7 +39,7 @@ body {
     background-color: #f9f9f9;
 }
 
-h1 {
+h1,h3 {
     text-align: center;
 }
 
@@ -55,3 +55,5 @@ label, select, input, button {
 button {
     padding: 10px 20px;
 }
+
+

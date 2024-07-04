@@ -27,24 +27,22 @@
         @foreach ($campos as $index => $campo)
             <p>{{$campo->titulo}}</p>
             @if ($campo->tipo === 'texto')
-                <input type="text" name="campos[{{$index}}][resp]" id="{{$campo->nome}}">
+                <input type="text" class="form-control" name="campos[{{$index}}][resp]" id="{{$campo->nome}}" required>
                 <input type="hidden" name="campos[{{$index}}][tipo]" value="texto">
             @elseif ($campo->tipo === 'textoarea')
-                <textarea name="campos[{{$index}}][resp]" id="{{$campo->nome}}"></textarea>
+                <textarea name="campos[{{$index}}][resp]" class="form-control" id="{{$campo->nome}}" required></textarea>
                 <input type="hidden" name="campos[{{$index}}][tipo]" value="textoarea">
             @elseif ($campo->tipo === 'select')
-                <select name="campos[{{$index}}][resp]" id="{{$campo->nome}}">
+                <select name="campos[{{$index}}][resp]" id="{{$campo->nome}}" class="form-control">
                     <option value="">Selecione</option>
-                    @if (!empty($campo->opcoes))
-                        @foreach ($campo->opcoes as $opcao)
-                            <option value="{{$opcao}}">{{$opcao}}</option>
-                        @endforeach
-                    @endif
+                    @foreach ($campo->options as $option)
+                        <option value="{{$option}}">{{$option}}</option>
+                    @endforeach
                 </select>
                 <input type="hidden" name="campos[{{$index}}][tipo]" value="select">
             @endif
         @endforeach
-        <button id="btnOK" type="submit">Enviar</button>
+        <button id="btnOK" class="btn btn-success" type="submit">Enviar</button>
     </form>
 
 </main>
