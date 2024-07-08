@@ -48,6 +48,7 @@ class CamposController extends Controller
     public function show($id)
     {
         $formulario = Formulario::find($id);
+
         $campos = CampoFormulario::where('formulario_id', $id)->get();
         return view('formularios', compact('formulario', 'campos'));
     }
@@ -57,7 +58,9 @@ class CamposController extends Controller
         $search = $request->input('search');
 
         // Realiza a busca por campos pelo título
-        $campos = CampoFormulario::where('titulo', 'like', '%' . $search . '%')->get();
+        $campos = CampoFormulario::where('titulo', 'like', '%' . $search . '%')
+        // ->with('formulario', 'respFormulario')
+        ->get();
 
         return response()->json($campos);
     }

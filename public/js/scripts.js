@@ -126,7 +126,7 @@ function procurar() {
             if (data.length > 0) {
                 data.forEach(item => {
                     const itemDiv = document.createElement('div');
-                    itemDiv.textContent = `ID: ${item.id} - ${item.titulo}`;
+                    itemDiv.textContent = `${item.titulo} (${item.tipo})`;
                     resultadosDiv.appendChild(itemDiv);
                 });
         } else {
