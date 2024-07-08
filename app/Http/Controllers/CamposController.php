@@ -58,10 +58,16 @@ class CamposController extends Controller
         $search = $request->input('search');
 
         // Realiza a busca por campos pelo título
-        $campos = CampoFormulario::where('titulo', 'like', '%' . $search . '%')
-        // ->with('formulario', 'respFormulario')
-        ->get();
+        $campos = CampoFormulario::where('titulo', 'like', '%' . $search . '%')->get();
+        $formularios = Formulario::where('titulo', 'like', '%' . $search . '%')->get();
+        $respostas = RespFormulario::where('resp', 'like', '%' . $search . '%')->get();
 
-        return response()->json($campos);
+        $resultados = [
+            'campos' => $campos,
+            'formularios' => $formularios,
+            'respostas' => $respostas
+        ];
+
+        return response()->json($$resultados);
     }
 }
