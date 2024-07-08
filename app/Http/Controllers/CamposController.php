@@ -68,6 +68,12 @@ class CamposController extends Controller
             'respostas' => $respostas
         ];
 
-        return response()->json($$resultados);
+        return response()->json($resultados);
     }
 }
+
+
+
+// Para trazer dados de múltiplas tabelas e exibi-los no frontend utilizando JavaScript,
+você pode ajustar o método search no CamposController para incluir informações de várias tabelas e
+depois processar esses dados no JavaScript. Aqui está como você pode fazer isso:
