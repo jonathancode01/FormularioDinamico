@@ -75,7 +75,8 @@ class FormularioController extends Controller
     {
         $formulario = Formulario::find($id);
         $campos = CampoFormulario::where('formulario_id', $id)->get();
-
         return view('formularios', compact('formulario', 'campos'));
     }
+
+
 }

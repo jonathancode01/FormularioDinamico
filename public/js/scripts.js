@@ -96,3 +96,43 @@ $('#cadastroForm').submit(function(e) {
         }
     });
 });
+
+function procurar() {
+    const search = document.getElementById('procurar').value;
+    console.log("Procurando...", search);
+
+    fetch('/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ search })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na busca');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            // Processar a resposta do servidor
+
+            // Exibir os resultados
+            const resultadosDiv = document.getElementById('resultados');
+            resultadosDiv.innerHTML = '';
+
+            if (data.length > 0) {
+                data.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.textContent = `ID: ${item.id} - ${item.titulo}`;
+                    resultadosDiv.appendChild(itemDiv);
+                });
+        } else {
+            resultadosDiv.textContent = 'Nenhum resultado encontrado.';
+        }
+    })
+
+}
+

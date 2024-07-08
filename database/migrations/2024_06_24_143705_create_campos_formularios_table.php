@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('campos_formulario', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('formulario_id')->constrained('formularios')->onDelete('cascade');
+            // $table->foreignId('formulario_id')->constrained('respform')->onDelete('cascade');
+            $table->foreignId('formulario_id')->references('id')->on('formularios')->onDelete('cascade');
+
             $table->string('titulo');
             $table->string('tipo');
             $table->timestamps();

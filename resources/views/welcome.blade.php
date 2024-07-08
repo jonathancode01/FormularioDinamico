@@ -12,11 +12,11 @@
 </head>
 <body>
     <header class="cabeca">
-        <h1>Jonathan Dev</h1>
+        Jonathan Dev
     </header>
 
     <main class="corpo">
-        <div class="container">
+        <div class="FormForm">
             <form id="cadastroForm" action="{{ route('formularios') }}" method="POST">
                 @csrf
                 <div class="mb-3">
@@ -31,6 +31,16 @@
             </form>
 
         </div>
+        <div class="pesquisa">
+            <label for="search" class="form-label" id="procurar"> Procure um formulario existente </label>
+            <input type="search" class="form-control" name="search" id="procurar">
+            <button type="button" class="btn btn-primary" onclick="procurar()">Procurar</button>
+        </div>
+        <div id="resultados" class="resultados">
+            
+        </div> <!-- Div para exibir os resultados da busca -->
+
+
     </main>
     <footer class="rodape mt-5">
         Copyright © Jonathan Dev

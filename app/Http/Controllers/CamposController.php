@@ -12,9 +12,11 @@ class CamposController extends Controller
 
     public function index()
     {
+        $formularios = Formulario::all();
         $camposFormularios = CampoFormulario::all();
         return view('formularios', compact('camposFormularios'));
     }
+
     public function store(Request $request, $id)
     {
 
@@ -42,10 +44,21 @@ class CamposController extends Controller
         return redirect('/')->with('success', 'Respostas enviadas com sucesso!');
     }
 
+
     public function show($id)
     {
-        $formularios = Formulario::findOrFail($id);
+        $formulario = Formulario::find($id);
+        $campos = CampoFormulario::where('formulario_id', $id)->get();
+        return view('formularios', compact('formulario', 'campos'));
+    }
 
-        return view('formularios', compact('formularios'));
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        // Realiza a busca por campos pelo título
+        $campos = CampoFormulario::where('titulo', 'like', '%' . $search . '%')->get();
+
+        return response()->json($campos);
     }
 }
