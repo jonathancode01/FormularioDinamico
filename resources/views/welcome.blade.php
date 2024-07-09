@@ -36,8 +36,8 @@
             <input type="search" class="form-control" name="search" id="procurar">
             <button type="button" class="btn btn-primary" onclick="procurar()">Procurar</button>
         </div>
-        <div id="resultados" class="resultados">
-            
+        <div id="resultados" class="mt-04">
+
         </div> <!-- Div para exibir os resultados da busca -->
 
 

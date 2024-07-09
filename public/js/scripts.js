@@ -99,8 +99,6 @@ $('#cadastroForm').submit(function(e) {
 
 function procurar() {
     const search = document.getElementById('procurar').value;
-    console.log("Procurando...", search);
-
     fetch('/search', {
         method: 'POST',
         headers: {
@@ -123,37 +121,31 @@ function procurar() {
         resultadosDiv.innerHTML = '';
 
         if (data.formularios.length > 0) {
-            const formulariosHeader = document.createElement('h3');
-            formulariosHeader.textContent = 'Formulários:';
-            resultadosDiv.appendChild(formulariosHeader);
-
             data.formularios.forEach(formulario => {
-                const formularioDiv = document.createElement('div');0
-                formularioDiv.textContent = `Título: ${formulario.titulo} `;
+                const formularioDiv = document.createElement('div');
+                formularioDiv.className = 'card mb-03';
+                const cardBody = document.createElement('div');
+                cardBody.className = 'card-body';
+                cardBody.textContent = `${formulario.titulo}`;
+                formularioDiv.appendChild(cardBody);
+                formularioDiv.textContent = `${formulario.titulo}`;
                 resultadosDiv.appendChild(formularioDiv);
             });
         }
 
         if (data.campos.length > 0) {
-            const camposHeader = document.createElement('h3');
-            camposHeader.textContent = 'Campos:';
-            resultadosDiv.appendChild(camposHeader);
-
             data.campos.forEach(campo => {
                 const campoDiv = document.createElement('div');
-                campoDiv.textContent = `Título: ${campo.titulo} `;
+
+                campoDiv.textContent = `${campo.titulo}`;
                 resultadosDiv.appendChild(campoDiv);
             });
         }
 
         if (data.respostas.length > 0) {
-            const respostasHeader = document.createElement('h3');
-            respostasHeader.textContent = 'Respostas:';
-            resultadosDiv.appendChild(respostasHeader);
-
             data.respostas.forEach(resposta => {
                 const respostaDiv = document.createElement('div');
-                respostaDiv.textContent = `Resposta: ${resposta.resp} `;
+                respostaDiv.textContent = `${resposta.resp}`;
                 resultadosDiv.appendChild(respostaDiv);
             });
         }
@@ -164,4 +156,3 @@ function procurar() {
     })
     .catch(error => console.error('Erro:', error));
 }
-
