@@ -109,30 +109,59 @@ function procurar() {
         },
         body: JSON.stringify({ search })
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro na busca');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-            // Processar a resposta do servidor
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erro na busca');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
 
-            // Exibir os resultados
-            const resultadosDiv = document.getElementById('resultados');
-            resultadosDiv.innerHTML = '';
+        // Exibir os resultados
+        const resultadosDiv = document.getElementById('resultados');
+        resultadosDiv.innerHTML = '';
 
-            if (data.length > 0) {
-                data.forEach(item => {
-                    const itemDiv = document.createElement('div');
-                    itemDiv.textContent = `${item.titulo} (${item.id})`;
-                    resultadosDiv.appendChild(itemDiv);
-                });
-        } else {
+        if (data.formularios.length > 0) {
+            const formulariosHeader = document.createElement('h3');
+            formulariosHeader.textContent = 'Formulários:';
+            resultadosDiv.appendChild(formulariosHeader);
+
+            data.formularios.forEach(formulario => {
+                const formularioDiv = document.createElement('div');0
+                formularioDiv.textContent = `Título: ${formulario.titulo} `;
+                resultadosDiv.appendChild(formularioDiv);
+            });
+        }
+
+        if (data.campos.length > 0) {
+            const camposHeader = document.createElement('h3');
+            camposHeader.textContent = 'Campos:';
+            resultadosDiv.appendChild(camposHeader);
+
+            data.campos.forEach(campo => {
+                const campoDiv = document.createElement('div');
+                campoDiv.textContent = `Título: ${campo.titulo} `;
+                resultadosDiv.appendChild(campoDiv);
+            });
+        }
+
+        if (data.respostas.length > 0) {
+            const respostasHeader = document.createElement('h3');
+            respostasHeader.textContent = 'Respostas:';
+            resultadosDiv.appendChild(respostasHeader);
+
+            data.respostas.forEach(resposta => {
+                const respostaDiv = document.createElement('div');
+                respostaDiv.textContent = `Resposta: ${resposta.resp} `;
+                resultadosDiv.appendChild(respostaDiv);
+            });
+        }
+
+        if (data.campos.length === 0 && data.formularios.length === 0 && data.respostas.length === 0) {
             resultadosDiv.textContent = 'Nenhum resultado encontrado.';
         }
     })
-
+    .catch(error => console.error('Erro:', error));
 }
 

@@ -26,6 +26,7 @@
         <h3>{{$formulario->titulo}}</h3>
         @foreach ($campos as $index => $campo)
             <p>{{$campo->titulo}}</p>
+            
             @if ($campo->tipo === 'texto')
                 <input type="text" class="form-control" name="campos[{{$index}}][resp]" id="{{$campo->nome}}" required>
                 <input type="hidden" name="campos[{{$index}}][tipo]" value="texto">
