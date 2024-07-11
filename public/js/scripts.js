@@ -122,9 +122,9 @@ function procurar() {
                 const formularioDiv = document.createElement('div');
                     formularioDiv.className = 'card mb-3';
                     formularioDiv.innerHTML = `
-                        <div class="card-body">
+                        <div style="display: inline-grid" class="card-body">
                             <h5 class="card-title">${data.titulo}</h5>
-                            <a style:cursor="pointer" display="Flex" justify-content="center" href="/formularios/" class="btn btn-primary">Visualizar</a>
+                            <a href="/formularios/${data.id}" class="btn btn-primary">Visualizar</a>
                         </div>
                     `;
                     resultadosDiv.appendChild(formularioDiv);
