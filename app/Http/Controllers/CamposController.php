@@ -12,9 +12,7 @@ class CamposController extends Controller
 
     public function index()
     {
-        $formularios = Formulario::all();
-        $camposFormularios = CampoFormulario::all();
-        return view('formularios', compact('camposFormularios'));
+
     }
 
     public function store(Request $request, $id)
@@ -57,17 +55,12 @@ class CamposController extends Controller
     {
         $search = $request->input('search');
 
-        // Realiza a busca por campos pelo título
-        $campos = CampoFormulario::where('titulo', 'like', '%' . $search . '%')->get();
-        $formularios = Formulario::where('titulo', 'like', '%' . $search . '%')->get();
-        $respostas = RespFormulario::where('resp', 'like', '%' . $search . '%')->get();
+        // Realiza a busca pelos formulários cujo título corresponde ao termo de busca
+        $formularios = Formulario::where('titulo', 'like', '%' . $search . '%')->first();
 
-        $resultados = [
-            'campos' => $campos,
-            'formularios' => $formularios,
-            'respostas' => $respostas
-        ];
 
-        return response()->json($resultados);
+
+        return response()->json($formularios);
     }
+
 }

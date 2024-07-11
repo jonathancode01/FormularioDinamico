@@ -115,44 +115,22 @@ function procurar() {
     })
     .then(data => {
         console.log(data);
-
-        // Exibir os resultados
         const resultadosDiv = document.getElementById('resultados');
         resultadosDiv.innerHTML = '';
 
-        if (data.formularios.length > 0) {
-            data.formularios.forEach(formulario => {
+        if (data) {
                 const formularioDiv = document.createElement('div');
-                formularioDiv.className = 'card mb-03';
-                const cardBody = document.createElement('div');
-                cardBody.className = 'card-body';
-                cardBody.textContent = `${formulario.titulo}`;
-                formularioDiv.appendChild(cardBody);
-                formularioDiv.textContent = `${formulario.titulo}`;
-                resultadosDiv.appendChild(formularioDiv);
-            });
-        }
-
-        if (data.campos.length > 0) {
-            data.campos.forEach(campo => {
-                const campoDiv = document.createElement('div');
-
-                campoDiv.textContent = `${campo.titulo}`;
-                resultadosDiv.appendChild(campoDiv);
-            });
-        }
-
-        if (data.respostas.length > 0) {
-            data.respostas.forEach(resposta => {
-                const respostaDiv = document.createElement('div');
-                respostaDiv.textContent = `${resposta.resp}`;
-                resultadosDiv.appendChild(respostaDiv);
-            });
-        }
-
-        if (data.campos.length === 0 && data.formularios.length === 0 && data.respostas.length === 0) {
-            resultadosDiv.textContent = 'Nenhum resultado encontrado.';
-        }
-    })
-    .catch(error => console.error('Erro:', error));
+                    formularioDiv.className = 'card mb-3';
+                    formularioDiv.innerHTML = `
+                        <div class="card-body">
+                            <h5 class="card-title">${data.titulo}</h5>
+                            <a style:cursor="pointer" display="Flex" justify-content="center" href="/formularios/" class="btn btn-primary">Visualizar</a>
+                        </div>
+                    `;
+                    resultadosDiv.appendChild(formularioDiv);
+                }
+            })
+    .catch(error => {
+        console.error(error);
+    });
 }
