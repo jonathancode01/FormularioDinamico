@@ -15,6 +15,12 @@
         Jonathan Dev
     </header>
 
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <main class="corpo">
         <div class="FormForm">
             <form id="cadastroForm" action="{{ route('formularios') }}" method="POST">
@@ -37,9 +43,8 @@
             <button type="button" class="btn btn-primary" onclick="procurar()">Procurar</button>
         </div>
         <div id="resultados" class="mt-04">
-                
-        </div> <!-- Div para exibir os resultados da busca -->
 
+        </div> <!-- Div para exibir os resultados da busca -->
 
     </main>
     <footer class="rodape mt-5">

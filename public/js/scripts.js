@@ -72,7 +72,7 @@ $('#cadastroForm').submit(function(e) {
     const formData = new FormData(this);
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
     formData.append('_token', csrfToken);
-
+// #region ajax
     $.ajax({
         type: 'POST',
         url: url,
@@ -97,6 +97,9 @@ $('#cadastroForm').submit(function(e) {
     });
 });
 
+
+// #region função procurar
+
 function procurar() {
     const search = document.getElementById('procurar').value;
     fetch('/search', {
@@ -114,11 +117,12 @@ function procurar() {
         return response.json();
     })
     .then(data => {
-        console.log(data);
         const resultadosDiv = document.getElementById('resultados');
         resultadosDiv.innerHTML = '';
 
-        if (data) {
+        if (data.message) {
+            resultadosDiv.innerHTML = `<p>${data.message}</p>`;
+         } else {
                 const formularioDiv = document.createElement('div');
                     formularioDiv.className = 'card mb-3';
                     formularioDiv.innerHTML = `
@@ -128,7 +132,7 @@ function procurar() {
                         </div>
                     `;
                     resultadosDiv.appendChild(formularioDiv);
-                }
+                    }
             })
     .catch(error => {
         console.error(error);

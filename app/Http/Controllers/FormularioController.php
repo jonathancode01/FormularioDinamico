@@ -27,8 +27,8 @@ class FormularioController extends Controller
             'campos' => 'required|array',
             'campos.*.titulo' => 'required|string',
             'campos.*.tipo' => 'required|string|in:texto,textoarea,select',
-            'campos.*.options' => 'nullable|array',
             'campos.*.options.*' => 'string',
+            'campos.*.options' => 'nullable|array',
         ]);
 
         Log::info('Validated data: ', $validatedData);
@@ -62,11 +62,9 @@ class FormularioController extends Controller
                     }
                 }
             }
-
             // Redirecionar para a página de detalhes do formulário
             return response()->json(['message' => $formulario->id]);
         }
-
         // Em caso de falha ao criar o formulário, retornar uma resposta de erro
         return back()->withInput()->withErrors(['message' => 'Erro ao criar o formulário']);
     }
@@ -79,4 +77,18 @@ class FormularioController extends Controller
     }
 
 
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        // Realiza a busca pelos formulários cujo título corresponde ao termo de busca
+        $formularios = Formulario::where('titulo', 'like', '%' . $search . '%')->first();
+
+        if (!$formularios) {
+            return response()->json(['message' => 'Nenhum formulário encontrado']);
+        }
+
+        return response()->json($formularios);
+
+    }
 }
