@@ -15,12 +15,6 @@
         Jonathan Dev
     </header>
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
     <main class="corpo">
         <div class="FormForm">
             <form id="cadastroForm" action="{{ route('formularios') }}" method="POST">

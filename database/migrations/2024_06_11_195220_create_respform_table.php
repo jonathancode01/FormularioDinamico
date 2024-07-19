@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             // $table->foreignId('formulario_id')->constrained('formularios')->onDelete('cascade');
             $table->string('resp');
-            $table->string('resp_tipo');
+            $table->string('resp_tipo')->unique();
             $table->timestamps();
         });
     }

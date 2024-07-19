@@ -26,7 +26,7 @@
         <h3>{{$formulario->titulo}}</h3>
         @foreach ($campos as $index => $campo)
             <p>{{$campo->titulo}}</p>
-            
+
             @if ($campo->tipo === 'texto')
                 <input type="text" class="form-control" name="campos[{{$index}}][resp]" id="{{$campo->nome}}" required>
                 <input type="hidden" name="campos[{{$index}}][tipo]" value="texto">
@@ -37,7 +37,7 @@
                 <select name="campos[{{$index}}][resp]" id="{{$campo->nome}}" class="form-control">
                     <option value="">Selecione</option>
                     @foreach ($campo->options as $option)
-                        <option value="{{$option}}">{{$option}}</option>
+                        <option value="{{$option->option_text}}">{{$option->option_text}}</option>
                     @endforeach
                 </select>
                 <input type="hidden" name="campos[{{$index}}][tipo]" value="select">

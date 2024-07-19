@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('formulario_id')->references('id')->on('formularios')->onDelete('cascade');
 
             $table->string('titulo');
-            $table->string('tipo');
+            $table->string('tipo')->unique();
             $table->timestamps();
         });
     }
