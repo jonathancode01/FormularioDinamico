@@ -122,19 +122,20 @@ function procurar() {
 
         if (data.message) {
             resultadosDiv.innerHTML = `<p>${data.message}</p>`;
-         } else {
-                const formularioDiv = document.createElement('div');
-                    formularioDiv.className = 'card mb-3';
-                    formularioDiv.innerHTML = `
-                        <div style="display: inline-grid" class="card-body">
-                            <h5 class="card-title">${data.titulo}</h5>
-                            <a href="/formularios/${data.id}" class="btn btn-primary">Visualizar</a>
-                        </div>
-                    `;
-                    resultadosDiv.appendChild(formularioDiv);
-                    }
-            })
+        } else {
+            const formularioDiv = document.createElement('div');
+            formularioDiv.className = 'card mb-3';
+            formularioDiv.innerHTML = `
+                <div class="card-body">
+                    <h5 class="card-title">${data.titulo}</h5>
+                    <a href="/respostas/${data.id}" class="btn btn-primary">Visualizar</a>
+                </div>
+            `;
+            resultadosDiv.appendChild(formularioDiv);
+        }
+    })
     .catch(error => {
         console.error(error);
     });
 }
+

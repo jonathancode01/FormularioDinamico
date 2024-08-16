@@ -9,8 +9,12 @@ use App\Http\Controllers\CamposController;
 Route::get('/', [FormularioController::class, 'index']);
 Route::post('/formularios', [FormularioController::class, 'store'])->name('formularios');
 Route::get('/formularios/{id}', [FormularioController::class, 'show']);
-Route::get('/formularios/{id}', [CamposController::class, 'show']);
+Route::get('/respostas/{id}', [CamposController::class, 'show'])->name('campos.show');
+
 
 Route::post('/formularios/{id}/campos', [CamposController::class, 'store'])->name('campos.store');
 
 Route::post('/search', [FormularioController::class, 'search'])->name('formularios.search');
+
+
+

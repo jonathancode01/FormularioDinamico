@@ -38,9 +38,6 @@ class CamposController extends Controller
         return redirect('/')->with('success', 'Respostas enviadas com sucesso!');
     }
 
-
-
-
     public function show($id)
     {
         $formulario = Formulario::find($id);
@@ -52,28 +49,21 @@ class CamposController extends Controller
 
     public function search(Request $request)
     {
+        dd($request->all());
         $search = $request->input('search');
 
-        // Realiza a busca pelos formulários cujo título corresponde ao termo de busca
-        $formularios = Formulario::where('titulo', 'like', '%' . $search . '%')->first();
+        // Realiza a busca pelo título específico
+        $formulario = Formulario::where('titulo', 'like', '%' . $search . '%')->first();
 
-        if (!$formularios) {
+        if (!$formulario) {
             return response()->json(['message' => 'Nenhum formulário encontrado']);
         }
 
-        $response = [
-            'formularios' => [
-                'titulo' => $formularios->titulo,
-                'campos' => $formularios->campos->map(function($campo) use ($formularios){
-                    $resposta = $formularios->respostas->firstwhere('campo_id', $campo->id);
-                    return [
-                        'titulo' => $campo->titulo,
-                        'resposta' => $resposta ? $resposta->resp : null
-                    ];
-                })
-            ]
-        ];
-
-        return response()->json($response);
+        return response()->json([
+            'id' => $formulario->id,
+            'titulo' => $formulario->titulo,
+            // Adicione outros campos do formulário se necessário
+        ]);
     }
+
 }

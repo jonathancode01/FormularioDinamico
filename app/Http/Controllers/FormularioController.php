@@ -86,6 +86,8 @@ class FormularioController extends Controller
 
         // Realiza a busca pelos formulários cujo título corresponde ao termo de busca
         $formularios = Formulario::where('titulo', 'like', '%' . $search . '%')->first();
+        // procurar por um formulário na tabela "formularios" onde o titulo corresponda ao termo de busca, e o like busca pelo termo de busca,
+        // e o % indica que o termo de busca pode estar em qualquer parte do campo
 
         if (!$formularios) {
             return response()->json(['message' => 'Nenhum formulário encontrado']);
