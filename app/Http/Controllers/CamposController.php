@@ -17,25 +17,21 @@ class CamposController extends Controller
 
     public function store(Request $request, $id)
     {
-
-        $formularioId = $id; // Assumindo que o ID do formulário é enviado no request
+        $formularioId = $id;
 
         // Validação dos dados recebidos do formulário
         $request->validate([
             'campos.*.resp' => 'required|string',
             'campos.*.tipo' => 'required|string|in:texto,textoarea,select',
+            'campos.*.campo_id' => 'required|exists:campos_formulario,id', // Adiciona validação para campo_id
         ]);
 
         foreach ($request->input('campos') as $campo) {
-            $request->validate([
-                'campos.*.resp' => 'required|string',
-                'campos.*.tipo' => 'required|string|in:texto,textoarea,select',
-            ]);
-
             RespFormulario::create([
                 'resp' => $campo['resp'],
                 'resp_tipo' => $campo['tipo'],
-                'formulario_id' => $formularioId, // Assumindo que você quer relacionar a resposta com um formulário específico
+                'formulario_id' => $formularioId,
+                'campo_id' => $campo['campo_id'], // Inclui o campo_id aqui
             ]);
         }
 
@@ -43,11 +39,15 @@ class CamposController extends Controller
     }
 
 
+
+
     public function show($id)
     {
         $formulario = Formulario::find($id);
+        $respostas = RespFormulario::where('formulario_id', $id)->get(); // Corrigido aqui
         $campos = CampoFormulario::where('formulario_id', $id)->get();
-        return view('formularios', compact('formulario', 'campos'));
+
+        return view('respostas', compact('formulario', 'campos', 'respostas'));
     }
 
     public function search(Request $request)

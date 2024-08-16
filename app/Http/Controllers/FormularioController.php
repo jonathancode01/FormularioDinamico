@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CampoFormulario;
+use App\Models\RespFormulario;
 use App\Models\SelectModel;
 use App\Models\Formulario;
 use Illuminate\Http\Request;
@@ -70,11 +71,13 @@ class FormularioController extends Controller
     }
 
     public function show($id)
-    {
-        $formulario = Formulario::find($id);
-        $campos = CampoFormulario::where('formulario_id', $id)->get();
-        return view('formularios', compact('formulario', 'campos'));
-    }
+{
+    $formulario = Formulario::find($id);
+    $campos = CampoFormulario::where('formulario_id', $id)->get();
+    $respostas = RespFormulario::where('formulario_id', $id)->get(); // Corrigido aqui
+    return view('formularios', compact('formulario', 'campos', 'respostas')); // Incluindo $respostas
+}
+
 
 
     public function search(Request $request)

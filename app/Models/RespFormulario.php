@@ -11,6 +11,17 @@ class RespFormulario extends Model
 
     protected $table = 'respform';
 
-    protected $fillable = ['resp', 'resp_tipo'];
+    protected $fillable = ['resp', 'resp_tipo', 'formulario_id', 'campo_id'];
 
+    public function formulario()
+    {
+        return $this->belongsTo(Formulario::class);
+    }
+
+    public function campo()
+    {
+        return $this->belongsTo(CampoFormulario::class, 'campo_id');
+    }
 }
+
+

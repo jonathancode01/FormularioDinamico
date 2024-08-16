@@ -17,4 +17,10 @@ class Formulario extends Model
     {
         return $this->hasMany(CampoFormulario::class);
     }
+
+    public function respostas()
+    {
+        return $this->hasMany(RespFormulario::class);
+    }
 }
+

@@ -20,7 +20,13 @@ class CampoFormulario extends Model
         return $this->belongsTo(Formulario::class);
     }
 
-    public function options(){
-        return $this->hasMany(SelectModel::class);
+    public function options()
+    {
+        return $this->hasMany(SelectModel::class, 'campo_formulario_id');
+    }
+
+    public function respostas()
+    {
+        return $this->hasMany(RespFormulario::class, 'campo_id');
     }
 }
