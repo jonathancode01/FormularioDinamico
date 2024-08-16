@@ -29,7 +29,9 @@
                         {{ $resposta ? $resposta->resp : 'Nenhuma resposta' }}
                     </p>
                 </div>
-            @endforeach
+                @endforeach
+                {{-- botão pra voltar pra pagina inicial --}}
+                <a href="/" class="btn btn-primary">Voltar</a>
         @else
             <p>Nenhuma resposta enviada ainda.</p>
         @endif
