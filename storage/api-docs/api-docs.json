@@ -1,0 +1,375 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "APIs Formulario Dinamico",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/campos": {
+            "get": {
+                "tags": [
+                    "Campos"
+                ],
+                "summary": "Lista todos os campos e respostas de formulários",
+                "operationId": "52d7be0138f78781add5ca91a39311aa",
+                "responses": {
+                    "200": {
+                        "description": "Lista de campos e respostas de formulários"
+                    }
+                }
+            }
+        },
+        "/campos/{id}": {
+            "post": {
+                "tags": [
+                    "Campos"
+                ],
+                "summary": "Armazena respostas para um formulário específico",
+                "operationId": "af20d5ea0c9de1eea4befe0582e07225",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do formulário",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "campos": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "resp": {
+                                                    "type": "string"
+                                                },
+                                                "tipo": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "texto",
+                                                        "textarea",
+                                                        "select"
+                                                    ]
+                                                },
+                                                "campo_id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Respostas armazenadas com sucesso"
+                    },
+                    "422": {
+                        "description": "Dados de entrada inválidos"
+                    }
+                }
+            }
+        },
+        "/respostas/{id}": {
+            "get": {
+                "tags": [
+                    "Campos"
+                ],
+                "summary": "Exibe os detalhes de um formulário específico",
+                "operationId": "da9f35f872f71b77ab12608988db542f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do formulário",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do formulário",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "formulario": {
+                                            "type": "object"
+                                        },
+                                        "campos": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "respostas": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Formulário não encontrado"
+                    }
+                }
+            }
+        },
+        "/campos/search": {
+            "post": {
+                "tags": [
+                    "Campos"
+                ],
+                "summary": "Busca por formulários com base no título",
+                "operationId": "9d1b41f1cb0eab034503a7e11ee91220",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "search": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Formulário encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "titulo": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum formulário encontrado"
+                    }
+                }
+            }
+        },
+        "/": {
+            "get": {
+                "tags": [
+                    "Formularios"
+                ],
+                "summary": "Lista todos os formulários",
+                "operationId": "5c4d546094ad129a66bffb06583b332e",
+                "responses": {
+                    "200": {
+                        "description": "Lista de formulários"
+                    }
+                }
+            }
+        },
+        "/formularios": {
+            "post": {
+                "tags": [
+                    "Formularios"
+                ],
+                "summary": "Cria um novo formulário",
+                "operationId": "15442406dd06866f31b971db2113757c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string"
+                                    },
+                                    "campos": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "titulo": {
+                                                    "type": "string"
+                                                },
+                                                "tipo": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "texto",
+                                                        "textarea",
+                                                        "select"
+                                                    ]
+                                                },
+                                                "options": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Formulário criado com sucesso"
+                    },
+                    "422": {
+                        "description": "Dados de entrada inválidos"
+                    }
+                }
+            }
+        },
+        "/formularios/{id}": {
+            "get": {
+                "tags": [
+                    "Formularios"
+                ],
+                "summary": "Exibe os detalhes de um formulário específico",
+                "operationId": "8c81106af596a1d85325de0fd528e4d8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do formulário",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do formulário",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "formulario": {
+                                            "type": "object"
+                                        },
+                                        "campos": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "respostas": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Formulário não encontrado"
+                    }
+                }
+            }
+        },
+        "/formularios/search": {
+            "post": {
+                "tags": [
+                    "Formularios"
+                ],
+                "summary": "Busca por formulários com base no título",
+                "operationId": "138e88caf461ba324ce591abcedcbd96",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "search": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Formulário encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "titulo": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum formulário encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Campos",
+            "description": "Gerenciamento de campos e respostas de formulários"
+        },
+        {
+            "name": "Formularios",
+            "description": "Gerenciamento de formulários"
+        }
+    ]
+}

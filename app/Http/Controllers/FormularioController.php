@@ -7,10 +7,27 @@ use App\Models\RespFormulario;
 use App\Models\SelectModel;
 use App\Models\Formulario;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
+use Illuminate\Support\Facades\Log;
+/**
+ * @OA\Tag(
+ *     name="Formularios",
+ *     description="Gerenciamento de formulários"
+ * )
+ */
 class FormularioController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/",
+     *     tags={"Formularios"},
+     *     summary="Lista todos os formulários",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de formulários"
+     *     )
+     * )
+     */
     public function index()
     {
         $formularios = Formulario::all();
@@ -18,6 +35,38 @@ class FormularioController extends Controller
         return view('welcome', compact('formularios'));
     }
 
+    /**
+     * @OA\Post(
+     *     path="/formularios",
+     *     tags={"Formularios"},
+     *     summary="Cria um novo formulário",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="titulo", type="string"),
+     *             @OA\Property(
+     *                 property="campos",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="titulo", type="string"),
+     *                     @OA\Property(property="tipo", type="string", enum={"texto", "textarea", "select"}),
+     *                     @OA\Property(property="options", type="array", @OA\Items(type="string"))
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Formulário criado com sucesso"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Dados de entrada inválidos"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         Log::info('Request data: ', $request->all());
@@ -70,16 +119,69 @@ class FormularioController extends Controller
         return back()->withInput()->withErrors(['message' => 'Erro ao criar o formulário']);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/formularios/{id}",
+     *     tags={"Formularios"},
+     *     summary="Exibe os detalhes de um formulário específico",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID do formulário",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalhes do formulário",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="formulario", type="object"),
+     *             @OA\Property(property="campos", type="array", @OA\Items(type="object")),
+     *             @OA\Property(property="respostas", type="array", @OA\Items(type="object"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Formulário não encontrado"
+     *     )
+     * )
+     */
     public function show($id)
-{
-    $formulario = Formulario::find($id);
-    $campos = CampoFormulario::where('formulario_id', $id)->get();
-    $respostas = RespFormulario::where('formulario_id', $id)->get(); // Corrigido aqui
-    return view('formularios', compact('formulario', 'campos', 'respostas')); // Incluindo $respostas
-}
+    {
+        $formulario = Formulario::find($id);
+        $campos = CampoFormulario::where('formulario_id', $id)->get();
+        $respostas = RespFormulario::where('formulario_id', $id)->get(); // Corrigido aqui
+        return view('formularios', compact('formulario', 'campos', 'respostas')); // Incluindo $respostas
+    }
 
-
-
+    /**
+     * @OA\Post(
+     *     path="/formularios/search",
+     *     tags={"Formularios"},
+     *     summary="Busca por formulários com base no título",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="search", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Formulário encontrado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer"),
+     *             @OA\Property(property="titulo", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Nenhum formulário encontrado"
+     *     )
+     * )
+     */
     public function search(Request $request)
     {
         $search = $request->input('search');

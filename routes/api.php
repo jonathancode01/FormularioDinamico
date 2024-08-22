@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FormularioController;
+use App\Http\Controllers\CamposController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/', [FormularioController::class, 'index']);
+Route::post('/formularios', [FormularioController::class, 'store'])->name('formularios');
+Route::get('/formularios/{id}', [FormularioController::class, 'show']);
+Route::get('/respostas/{id}', [CamposController::class, 'show'])->name('campos.show');
+Route::post('/formularios/{id}/campos', [CamposController::class, 'store'])->name('campos.store');
+Route::post('/search', [FormularioController::class, 'search'])->name('search');
+
