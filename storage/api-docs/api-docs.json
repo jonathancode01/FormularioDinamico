@@ -19,13 +19,13 @@
                 }
             }
         },
-        "/campos/{id}": {
+        "/formularios/{id}/campos": {
             "post": {
                 "tags": [
                     "Campos"
                 ],
                 "summary": "Armazena respostas para um formulário específico",
-                "operationId": "af20d5ea0c9de1eea4befe0582e07225",
+                "operationId": "9ae7bfbbc4c6b259ac6b579c0b929a13",
                 "parameters": [
                     {
                         "name": "id",
@@ -301,51 +301,30 @@
                         "description": "Formulário não encontrado"
                     }
                 }
-            }
-        },
-        "/formularios/search": {
-            "post": {
+            },
+            "delete": {
                 "tags": [
                     "Formularios"
                 ],
-                "summary": "Busca por formulários com base no título",
-                "operationId": "138e88caf461ba324ce591abcedcbd96",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "search": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
+                "summary": "Remove um formulário específico",
+                "operationId": "4a0b816b94db7c8d44587f4668f5161b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do formulário",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
-                        "description": "Formulário encontrado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer"
-                                        },
-                                        "titulo": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Formulário removido com sucesso"
                     },
                     "404": {
-                        "description": "Nenhum formulário encontrado"
+                        "description": "Formulário não encontrado"
                     }
                 }
             }

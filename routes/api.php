@@ -23,3 +23,6 @@ Route::get('/respostas/{id}', [CamposController::class, 'show'])->name('campos.s
 Route::post('/formularios/{id}/campos', [CamposController::class, 'store'])->name('campos.store');
 Route::post('/search', [FormularioController::class, 'search'])->name('search');
 
+Route::delete('/respostas/{id}', [FormularioController::class, 'destroy'])->name('formularios.destroy');
+
+

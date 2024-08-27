@@ -32,6 +32,12 @@
                 @endforeach
                 {{-- botão pra voltar pra pagina inicial --}}
                 <a href="/" class="btn btn-primary">Voltar</a>
+                {{-- botão para apagar todo o formulario --}}
+                <form action="{{ route('formularios.destroy', $formulario->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Apagar Formulário</button>
+                </form>
         @else
             <p>Nenhuma resposta enviada ainda.</p>
         @endif
